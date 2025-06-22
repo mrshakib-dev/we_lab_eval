@@ -17,28 +17,52 @@
                     <th>Name</th>
                     <th>ID</th>
                     <th>Marks</th>
-                </tr>
-            </thead>
-            <tbody>
+                </tr>            </thead>
+            <tbody id="studentBody">
                 
-            </tbody>
-        </table>
+            </tbody>        </table>
 
-        <div>
-            <div class="col-auto">
-                <input type="text" id="name" class="form-control" placeholder="Name" >
-            </div>
-            <div class="col-auto">
-                <input type="text" id="id" class="form-control" placeholder="ID" >
-            </div>
-            <div class="col-auto">
-                <input type="number" id="marks" class="form-control" placeholder="Marks" >
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-primary" onclick="addStudent()">Add</button>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <input type="text" id="name" class="form-control" placeholder="Name" >
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="id" class="form-control" placeholder="ID" >
+                </div>
+                <div class="mb-3">
+                    <input type="number" id="marks" class="form-control" placeholder="Marks" >
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" onclick="addStudent()">Add</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function addStudent(){
+            const name = document.getElementById('name').value;
+            const id = document.getElementById('id').value;
+            const marks = document.getElementById('marks').value;
+
+            if(name === "" || id === "" || marks === ""){
+                alert("Please fill all the fields.");
+                return;
+            }
+
+            const tableBody = document.getElementById('studentBody');
+            const row = tableBody.insertRow();
+
+            row.insertCell(0).textContent = name;
+            row.insertCell(1).textContent = id; 
+            row.insertCell(2).textContent = marks;
+
+            document.getElementById('name').value = '';
+            document.getElementById('id').value = '';
+            document.getElementById('marks').value = '';
+        }
+    </script>
     
 </body>
 </html>
