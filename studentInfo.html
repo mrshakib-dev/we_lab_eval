@@ -103,7 +103,65 @@
             document.getElementById('marks').value = '';
         }
 
-        
+        function openModifyPopup() {
+            const modifyId = document.getElementById('modifyId').value;
+            
+            if(modifyId === "") {
+                alert("Please enter an ID to modify.");
+                return;
+            }
+
+            const tableBody = document.getElementById('studentBody');
+            const rows = tableBody.rows;
+            let foundRow = -1;
+
+            for(let i = 0; i < rows.length; i++) {
+                if(rows[i].cells[1].textContent === modifyId) {
+                    foundRow = i;
+                    break;
+                }
+            }
+
+            if(foundRow === -1) {
+                alert("Student with ID " + modifyId + " not found.");
+                return;
+            }
+
+            currentModifyRowIndex = foundRow;
+            
+            document.getElementById('modifyName').value = rows[foundRow].cells[0].textContent;
+            document.getElementById('modifyMarks').value = rows[foundRow].cells[2].textContent;
+            
+            const modal = new bootstrap.Modal(document.getElementById('modifyModal'));
+            modal.show();
+        }
+
+        function updateStudent() {
+            const newName = document.getElementById('modifyName').value;
+            const newMarks = document.getElementById('modifyMarks').value;
+
+            if(newName === "" || newMarks === "") {
+                alert("Please fill all the fields.");
+                return;
+            }
+
+            if(currentModifyRowIndex !== -1) {
+                const tableBody = document.getElementById('studentBody');
+                const row = tableBody.rows[currentModifyRowIndex];
+                
+                row.cells[0].textContent = newName;
+                row.cells[2].textContent = newMarks;
+                
+                document.getElementById('modifyId').value = '';
+                document.getElementById('modifyName').value = '';
+                document.getElementById('modifyMarks').value = '';
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('modifyModal'));
+                modal.hide();
+                
+                alert("Student information updated successfully!");
+            }
+        }
     </script>
     
 </body>
