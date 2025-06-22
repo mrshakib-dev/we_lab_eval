@@ -138,38 +138,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    <script>
         let currentModifyRowIndex = -1;
 
-        // Local Storage functions
-        function saveToLocalStorage() {
-            const tableBody = document.getElementById('studentBody');
-            const students = [];
-            
-            for (let i = 0; i < tableBody.rows.length; i++) {
-                const row = tableBody.rows[i];
-                students.push({
-                    name: row.cells[0].textContent,
-                    id: row.cells[1].textContent,
-                    marks: row.cells[2].textContent
-                });
-            }
-            
-            localStorage.setItem('studentData', JSON.stringify(students));
-        }
-
-        function loadFromLocalStorage() {
-            const savedData = localStorage.getItem('studentData');
-            if (savedData) {
-                const students = JSON.parse(savedData);
-                const tableBody = document.getElementById('studentBody');
-                
-                students.forEach(student => {
-                    const row = tableBody.insertRow();
-                    row.insertCell(0).textContent = student.name;
-                    row.insertCell(1).textContent = student.id;
-                    row.insertCell(2).textContent = student.marks;
-                });
-            }
-        }
-
         // Update student count and empty state
         function updateUI() {
             const tableBody = document.getElementById('studentBody');
@@ -232,9 +200,6 @@
             row.insertCell(0).textContent = name;
             row.insertCell(1).textContent = id; 
             row.insertCell(2).textContent = marks;            
-            
-            // Save to localStorage
-            saveToLocalStorage();
             
             // Clear form
             document.getElementById('name').value = '';
@@ -322,22 +287,14 @@
                 const tableBody = document.getElementById('studentBody');
                 const row = tableBody.rows[currentModifyRowIndex];
                 
-                // Store old values for confirmation
                 const oldName = row.cells[0].textContent;
-                const studentId = row.cells[1].textContent;
-                  // Update the row with new values
-                row.cells[0].textContent = newName;
+                const studentId = row.cells[1].textContent;                row.cells[0].textContent = newName;
                 row.cells[2].textContent = newMarks;
                 
-                // Save to localStorage
-                saveToLocalStorage();
-                
-                // Clear the modify form
                 document.getElementById('modifyId').value = '';
                 document.getElementById('modifyName').value = '';
                 document.getElementById('modifyMarks').value = '';
                 
-                // Hide the modal
                 const modal = bootstrap.Modal.getInstance(document.getElementById('modifyModal'));
                 modal.hide();
                 
@@ -351,7 +308,6 @@
             }
         }        // Initialize UI on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadFromLocalStorage(); // Load saved data first
             updateUI();
         });
     </script>
